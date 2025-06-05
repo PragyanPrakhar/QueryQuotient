@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
+        minlength: 3,
+        maxlength: 30,
+    },
     email: {
         type: String,
         required: true,
@@ -14,9 +22,9 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["user", "moderator", "admin"],
-        skills: [String],
         default: "user",
-        createdAt: { type: Date, default: Date.now },
     },
+    skills: [String],
+    createdAt: { type: Date, default: Date.now },
 });
 export default mongoose.model("User", userSchema);

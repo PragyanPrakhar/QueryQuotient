@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-export const sendMail = async (to, subject, text) => {
+export const sendMail = async (to, subject, text,html) => {
     try {
         nodemailer.createTransport({
             host: process.env.MAILTRAP_SMTP_HOST,
@@ -16,7 +16,7 @@ export const sendMail = async (to, subject, text) => {
             to,
             subject,
             text, // plain‑text body
-            // html: "<b>Hello world?</b>", // HTML body
+            html // HTML body
         });
 
         console.log("Message sent:", info.messageId);
