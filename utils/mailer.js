@@ -1,13 +1,13 @@
 import nodemailer from "nodemailer";
-export const sendMail = async (to, subject, text,html) => {
+export const sendMail = async (to, subject, text, html) => {
     try {
-        nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             host: process.env.MAILTRAP_SMTP_HOST,
             port: process.env.MAILTRAP_SMTP_PORT,
-            secure: false, // true for 465, false for other ports
+            secure: false,
             auth: {
-                user: process.env.MAILTRAP_SMTP_USER, // generated ethereal user
-                pass: process.env.MAILTRAP_SMTP_PASSWORD, // generated ethereal password
+                user: process.env.MAILTRAP_SMTP_USER,
+                pass: process.env.MAILTRAP_SMTP_PASSWORD,
             },
         });
 
@@ -16,7 +16,7 @@ export const sendMail = async (to, subject, text,html) => {
             to,
             subject,
             text, // plain‑text body
-            html // HTML body
+            html, // HTML body
         });
 
         console.log("Message sent:", info.messageId);

@@ -1,5 +1,5 @@
 import { inngest } from "../client.js";
-import User from "../../models/user.js";
+import User from "../../models/user.model.js";
 import { NonRetriableError } from "inngest";
 import { sendMail } from "../../utils/mailer.js";
 import { generateWelcomeHtml } from "../../email-templates/welcome-email.js";
@@ -36,7 +36,7 @@ export const onUserSignup = inngest.createFunction(
             });
             return { success: true };
         } catch (error) {
-            console.error("❌ Error running step", error.message);
+            console.error("❌ Error running step on signup", error.message);
             return {
                 success: false,
             };

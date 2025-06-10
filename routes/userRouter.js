@@ -3,7 +3,7 @@ import {signup, login, logout, updateUser,getUsers } from '../controllers/user.j
 import { authenticate } from '../middlewares/auth.js';
 
 const router = express.Router();
-router.post("update-user", authenticate, updateUser);
+router.post("/update-user", authenticate, updateUser);
 router.get("/users", authenticate, getUsers);
 router.post("/signup",signup);
 router.post("/login",login);

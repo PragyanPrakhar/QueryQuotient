@@ -6,11 +6,12 @@ import { sendMail } from "../../utils/mailer.js";
 import { generateWelcomeHtml } from "../../email-templates/welcome-email.js";
 import analyzeTicket from "../../utils/ai-agent.js";
 import { generateTicketAssignedHtml } from "../../email-templates/ticket-assigned.js";
+import { format } from "date-fns";
 
 export const onTicketCreated = inngest.createFunction(
     { id: "on-ticket-created", retries: 2 },
     { event: "ticket/created" },
-    async ({ event, data }) => {
+    async ({ event, data,step }) => {
         try {
             const { ticketId } = event.data;
             /* if (!ticketId) {
@@ -26,13 +27,19 @@ export const onTicketCreated = inngest.createFunction(
                 return ticketObject;
             });
 
+            console.log("Ticket found:", ticket);
+
             await step.run("update-ticket-status", async () => {
                 await Ticket.findByIdAndUpdate(ticket._id, {
                     status: "open",
                 });
             });
 
+            console.log("Ticket status updated to open");
+
             const aiResponse = await analyzeTicket(ticket);
+
+            console.log("AI response received:", aiResponse);
             const relatedSkills = await step.run("ai-processing", async () => {
                 //TODO:It has been returned null previously but I have updated the return value of analyzeTicket function to return an object with error, data and message properties.
                 if (aiResponse.error) {

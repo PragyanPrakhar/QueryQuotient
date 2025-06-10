@@ -99,13 +99,14 @@ export const login = async (req, res) => {
             { _id: user._id, role: user.role },
             process.env.JWT_SECRET
         );
-        res.cookie("token",token,{
+        res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // Set to true in production
             sameSite: "Strict", // Helps prevent CSRF attacks
             maxAge: 24 * 60 * 60 * 1000, // 1 day
-        })
+        });
         res.status(201).json({
+            message: "Login Successful",
             user: {
                 _id: user._id,
                 username: user.username,
@@ -154,8 +155,6 @@ export const logout = async (req, res) => {
 export const updateUser = async (req, res) => {
     const { skills = [], role, email } = req.body;
     try {
-        
-
         if (req.user?.role !== "admin") {
             return res.status(403).json({
                 error: "You are not authorized to update user",
@@ -200,7 +199,7 @@ export const getUsers = async (req, res) => {
             });
         }
         const users = await User.find({}, "-password").sort({ createdAt: -1 });
-        return res.status(200).json({users});
+        return res.status(200).json({ users });
     } catch (error) {
         res.status(500).json({
             message: "Error getting users",
