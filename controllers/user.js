@@ -26,6 +26,7 @@ export const signup = async (req, res) => {
                 username: user.username,
             },
         });
+        console.log("📨 Event sent: user/signup");
 
         const token = jwt.sign(
             { _id: user._id, role: user.role },

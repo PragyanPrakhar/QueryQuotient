@@ -18,7 +18,7 @@ const ticketSchema = new mongoose.Schema({
         ref: "User",
         default: null,
     },
-    piority: String,
+    priority: String,
     deadline: Date,
     helpfulNotes: String,
     relatedSkills: [String],

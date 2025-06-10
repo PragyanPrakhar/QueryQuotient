@@ -8,6 +8,9 @@ export const onUserSignup = inngest.createFunction(
     { event: "user/signup" },
     async ({ event, step }) => {
         try {
+            if (!event.data?.email) {
+                throw new NonRetriableError("Missing email in event data.");
+            }
             const { email } = event.data;
             const user = await step.run("get-user-email", async () => {
                 const userObj = await User.findOne({ email });
@@ -31,12 +34,12 @@ export const onUserSignup = inngest.createFunction(
                     generateWelcomeHtml({ username: user.username })
                 );
             });
-            return {success:true};
+            return { success: true };
         } catch (error) {
-            console.error("❌ Error running step",error.message);
+            console.error("❌ Error running step", error.message);
             return {
-                success:false
-            }
+                success: false,
+            };
         }
     }
 );
