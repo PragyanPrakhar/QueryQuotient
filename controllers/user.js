@@ -207,3 +207,23 @@ export const getUsers = async (req, res) => {
         });
     }
 };
+
+export const getSelfProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id, "-password");
+        if (!user) {
+            return res.status(404).json({
+                error: "User not found",
+            });
+        }
+        return res.status(200).json({
+            message: "Profile details fetched successfully",
+            user,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error getting user profile",
+            details: error.message,
+        });
+    }
+};

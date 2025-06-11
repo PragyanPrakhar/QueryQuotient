@@ -12,7 +12,13 @@ import { onUserSignup } from "./inngest/functions/on-signup.js";
 import cookieParser from "cookie-parser";
 const PORT = process.env.PORT || 3000;
 const app = express();
-app.use(cors());
+app.use(cors(
+    {
+        origin:"http://localhost:5173",
+        credentials: true, // Allow cookies to be sent
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    }
+));
 app.use(express.json());
 app.use(cookieParser());
 
